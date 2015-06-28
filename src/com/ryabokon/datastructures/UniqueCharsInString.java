@@ -32,14 +32,11 @@ public class UniqueCharsInString {
 	@Test
 	public void worstCaseTest() {
 		System.out.println("Worst case string:");
-		String string = "qwertyuiopasdfghjklzxcvbnm";
 
-		for (int i = 1; i <= string.length(); i++) {
-			String subString = string.substring(0, i);
-			testArray(subString);
-			testSlow(subString);
-			testSet(subString);
-		}
+		String string = "qwertyuiopasdfghjklzxcvbnm";
+		testArray(string);
+		testSlow(string);
+		testSet(string);
 	}
 
 	@Test
