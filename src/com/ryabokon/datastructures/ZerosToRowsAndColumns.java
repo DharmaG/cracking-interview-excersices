@@ -7,32 +7,34 @@ import org.apache.commons.lang3.RandomUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * Write an algorithm such that if an element in an MxN matrix is 0, its entire row and
+ * column are set to 0.
+ * ------------------------------------------------------------------------------------
+ * 
+ * We look for nulls and remember rows and columns that have to be "nulled"
+ * 
+ * Then, we loop through matrix again, and put zeros if cursor is on zero row or col.
+ * Complexity will be O(2n^2)
+ * 
+ * OR
+ * 
+ * Save row and cols in a set, and then loop only through noll rows and cols to put zeros.
+ * However, set implementation seems to be slower, due to a lot of contains and gets
+ * Set will be slower due to more expensive get/contains
+ * */
 public class ZerosToRowsAndColumns {
 
-	int[][] testMatrix = getRandomMatrix(10000, 20000);
-	int iterations = 1;
+	int[][] testMatrix = getRandomMatrix(5000, 1000);
 
 	@Test
 	public void testSetPerformance() {
-		for (int i = 0; i < iterations; i++) {
-			int[][] result = nullRowsAndColsWithSet(cloneArray(testMatrix));
-		}
-
+		int[][] result = nullRowsAndColsWithSet(cloneArray(testMatrix));
 	}
 
 	@Test
-	public void testDumbPerformance() {
-		for (int i = 0; i < iterations; i++) {
-			int[][] result = nullRowsAndColsDumb(cloneArray(testMatrix));
-		}
-
-	}
-
-	@Test
-	public void testSmartPerformance() {
-		for (int i = 0; i < iterations; i++) {
-			int[][] result = nullRowsAndColsBool(cloneArray(testMatrix));
-		}
+	public void testBoolPerformance() {
+		int[][] result = nullRowsAndColsBool(cloneArray(testMatrix));
 
 	}
 
@@ -46,52 +48,7 @@ public class ZerosToRowsAndColumns {
 		Assert.assertArrayEquals("Set assert failed", expected, result);
 
 		result = nullRowsAndColsBool(cloneArray(matrix));
-		Assert.assertArrayEquals("Smart assert failed", expected, result);
-
-		result = nullRowsAndColsDumb(cloneArray(matrix));
-		Assert.assertArrayEquals("Dumb assert failed", expected, result);
-
-	}
-
-	public int[][] nullRowsAndColsBool(int[][] matrix) {
-
-		int rows = matrix.length;
-		int cols = matrix[0].length;
-
-		boolean[] zeroRows = new boolean[rows];
-		boolean[] zeroCols = new boolean[cols];
-
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-
-				if (matrix[i][j] == 0) {
-					zeroRows[i] = true;
-					zeroCols[j] = true;
-					break;
-				}
-			}
-		}
-
-		for (int i = 0; i < rows; i++) {
-			if (zeroRows[i]) {
-				for (int j = 0; j < cols; j++) {
-					matrix[i][j] = 0;
-				}
-			}
-		}
-
-		for (int j = 0; j < cols; j++) {
-			if (zeroCols[j]) {
-				for (int i = 0; i < rows; i++) {
-					if (zeroRows[i]) {
-						continue;
-					}
-					matrix[i][j] = 0;
-				}
-			}
-		}
-
-		return matrix;
+		Assert.assertArrayEquals("Bool assert failed", expected, result);
 
 	}
 
@@ -104,9 +61,7 @@ public class ZerosToRowsAndColumns {
 		Set<Integer> zeroCols = new HashSet<Integer>();
 
 		for (int i = 0; i < rows; i++) {
-
 			for (int j = 0; j < cols; j++) {
-
 				if (matrix[i][j] == 0) {
 					zeroRows.add(i);
 					zeroCols.add(j);
@@ -135,36 +90,31 @@ public class ZerosToRowsAndColumns {
 
 	}
 
-	public int[][] nullRowsAndColsDumb(int[][] matrix) {
+	public int[][] nullRowsAndColsBool(int[][] matrix) {
 
 		int rows = matrix.length;
 		int cols = matrix[0].length;
 
-		Set<Integer> zeroRows = new HashSet<Integer>();
-		Set<Integer> zeroCols = new HashSet<Integer>();
+		boolean[] zeroRows = new boolean[rows];
+		boolean[] zeroCols = new boolean[cols];
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 
 				if (matrix[i][j] == 0) {
-					zeroRows.add(i);
-					zeroCols.add(j);
+					zeroRows[i] = true;
+					zeroCols[j] = true;
 					break;
 				}
 			}
 		}
 
-		for (int i : zeroRows) {
+		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				matrix[i][j] = 0;
+				if (zeroRows[i] || zeroCols[j]) {
+					matrix[i][j] = 0;
+				}
 			}
-		}
-
-		for (int j : zeroCols) {
-			for (int i = 0; i < rows; i++) {
-				matrix[i][j] = 0;
-			}
-
 		}
 
 		return matrix;
@@ -175,7 +125,7 @@ public class ZerosToRowsAndColumns {
 		int[][] matrix = new int[rows][cols];
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				matrix[i][j] = RandomUtils.nextInt(0, 1000);
+				matrix[i][j] = RandomUtils.nextInt(0, 100);
 			}
 		}
 
