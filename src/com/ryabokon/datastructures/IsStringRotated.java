@@ -35,5 +35,8 @@ public class IsStringRotated {
 	public void testWithAsserts() {
 		boolean result = isRotated("waterbottle", "erbottlewat");
 		Assert.assertTrue(result);
+
+		result = isRotated("hello", "eeloh");
+		Assert.assertFalse(result);
 	}
 }
