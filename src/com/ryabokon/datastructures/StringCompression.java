@@ -1,5 +1,6 @@
 package com.ryabokon.datastructures;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,6 +12,25 @@ import org.junit.Test;
  *
  */
 public class StringCompression {
+
+	@Test
+	public void testCompression() {
+
+		String alphabet = "qwertyuiopasdfghjklzxcvbnm";
+
+		for (int x = 1; x < 100; x++) {
+			for (int y = 1; y < 26; y++) {
+
+				String currentAlphabet = alphabet.substring(0, y);
+				String string = RandomStringUtils.random(x, currentAlphabet);
+				int z1 = compress(string).length();
+				int z2 = strongerCompress(string).length();
+
+				System.out.println(x + ", " + y + ", " + z1 + ";");
+			}
+		}
+
+	}
 
 	@Test
 	public void testWithAsserts() {
