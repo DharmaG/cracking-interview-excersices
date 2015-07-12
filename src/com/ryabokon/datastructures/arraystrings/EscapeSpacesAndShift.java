@@ -1,4 +1,4 @@
-package com.ryabokon.datastructures;
+package com.ryabokon.datastructures.arraystrings;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

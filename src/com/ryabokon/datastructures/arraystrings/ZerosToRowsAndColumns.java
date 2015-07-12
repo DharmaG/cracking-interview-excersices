@@ -1,4 +1,4 @@
-package com.ryabokon.datastructures;
+package com.ryabokon.datastructures.arraystrings;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.ryabokon.datastructures;
+package com.ryabokon.datastructures.arraystrings;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;

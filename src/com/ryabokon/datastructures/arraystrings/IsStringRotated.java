@@ -1,4 +1,4 @@
-package com.ryabokon.datastructures;
+package com.ryabokon.datastructures.arraystrings;
 
 import org.junit.Assert;
 import org.junit.Test;
