@@ -3,11 +3,11 @@ package com.ryabokon.datastructures.lists;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class NodeTest {
+public class LinkedListTest {
 
 	@Test
 	public void testAddItems() {
-		Node<String> root = new Node<>("root");
+		LinkedList<String> root = new LinkedList<>("root");
 		root.add("first");
 		Assert.assertEquals("root", root.get(0));
 		Assert.assertEquals("first", root.get(1));
@@ -21,7 +21,7 @@ public class NodeTest {
 	@Test
 	public void testDeleteItems() {
 
-		Node<String> root = new Node<>("root");
+		LinkedList<String> root = new LinkedList<>("root");
 
 		root.add("first");
 		root.add("second");
@@ -60,7 +60,7 @@ public class NodeTest {
 	@Test
 	public void testDeleteRoot() {
 
-		Node<String> root = new Node<>("root");
+		LinkedList<String> root = new LinkedList<>("root");
 
 		root.delete(0);
 
