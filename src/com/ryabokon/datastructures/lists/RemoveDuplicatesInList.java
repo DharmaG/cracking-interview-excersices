@@ -3,7 +3,9 @@ package com.ryabokon.datastructures.lists;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -12,29 +14,25 @@ import org.junit.Test;
  * FOLLOW UP
  * 
  * How would you solve this problem if a temporary buffer is not allowed?
+ * ----------------------------------------------------------------------
+ * 
+ * Set can be used to store iterated items, and to check for duplicates while
+ * iterating.
+ * 
+ * Or a runner can be used to iterate over all next nodes and to check them vs
+ * current node.
+ * 
+ * For big amount of duplicates, set and runner solutions are quite equal. As
+ * list gets smaller fast after each runner loop.
+ * 
+ * But when there is a small amount of duplicates, set solution is faster.
  *
  */
 public class RemoveDuplicatesInList {
 
-	public void removeDuplicatesSetAndPrevious(Node head) {
-
-		Set<String> duplicates = new HashSet<>();
-
-		Node current = head;
-		Node previous = head;
-
-		while (current != null) {
-			if (duplicates.contains(current.data)) {
-				previous.next = current.next;
-				current = current.next;
-			} else {
-				duplicates.add(current.data);
-				previous = current;
-				current = current.next;
-			}
-		}
-
-	}
+	int iterations = 1000;
+	static String[] elements;
+	static int listSize = 1000;
 
 	public void removeDuplicatesSet(Node head) {
 
@@ -80,25 +78,8 @@ public class RemoveDuplicatesInList {
 	}
 
 	@Test
-	public void testSetPrevious() {
-		Node head = new Node("a");
-		Node n1 = head.add("b");
-		Node n2 = head.add("c");
-		Node n3 = head.add("b");
-		Node n4 = head.add("d");
-		Node n5 = head.add("a");
+	public void testSetWithAsserts() {
 
-		removeDuplicatesSetAndPrevious(head);
-		Assert.assertEquals(n4, n2.next);
-		Assert.assertEquals(null, n4.next);
-
-		String result = head.toString();
-		Assert.assertEquals("[a, b, c, d]", result);
-
-	}
-
-	@Test
-	public void testSet() {
 		Node head = new Node("a");
 		Node n1 = head.add("b");
 		Node n2 = head.add("c");
@@ -116,7 +97,7 @@ public class RemoveDuplicatesInList {
 	}
 
 	@Test
-	public void testNoBuffer() {
+	public void testNoBufferWithAsserts() {
 		Node head = new Node("a");
 		Node n1 = head.add("b");
 		Node n2 = head.add("c");
@@ -131,5 +112,44 @@ public class RemoveDuplicatesInList {
 		String result = head.toString();
 		Assert.assertEquals("[a, b, c, d]", result);
 
+	}
+
+	// -----------Performance testing-----------------------------------
+
+	@BeforeClass
+	public static void initElements() {
+		elements = new String[listSize];
+		for (int i = 0; i < listSize; i++) {
+			elements[i] = RandomStringUtils.random(100, "qwertyuiop");
+		}
+	}
+
+	@Test
+	public void testSetPerformance() {
+
+		for (int i = 0; i < iterations; i++) {
+
+			Node head = makeListFromElements();
+			removeDuplicatesSet(head);
+		}
+
+	}
+
+	@Test
+	public void testNoBufferPerformance() {
+
+		for (int i = 0; i < iterations; i++) {
+			Node head = makeListFromElements();
+			removeDuplicatesNoBuffer(head);
+		}
+
+	}
+
+	private Node makeListFromElements() {
+		Node head = new Node("s");
+		for (int i = 0; i < listSize; i++) {
+			head.add(elements[i]);
+		}
+		return head;
 	}
 }
