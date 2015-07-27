@@ -4,19 +4,20 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Write code to partition a linked list around a value x, such that all nodes
- * less than x come before all nodes greater than or equal to x
+ * Write code to partition a linked list around a value x, such that all
+ * Node<String>s less than x come before all Node<String>s greater than or equal
+ * to x
  * ---------------------------------------------------------------------------
- * Can be done by iterating through the list and saving nodes to 2 another
- * lists: less-than-divider and more-than-divider. And then merging those 2
- * lists.
+ * Can be done by iterating through the list and saving Node<String>s to 2
+ * another lists: less-than-divider and more-than-divider. And then merging
+ * those 2 lists.
  */
 public class PartitionList {
 
-	Node partitionAroundX(Node head, String x) {
-		Node less = null;
-		Node more = null;
-		Node current = head;
+	Node<String> partitionAroundX(Node<String> head, String x) {
+		Node<String> less = null;
+		Node<String> more = null;
+		Node<String> current = head;
 
 		while (current != null) {
 
@@ -25,7 +26,7 @@ public class PartitionList {
 			} else if (x.compareTo(current.data) == 0) {
 				// If list has duplicate partition values, they should go
 				// to the beginning of a "more-than" list.
-				Node partition = new Node(current.data);
+				Node<String> partition = new Node<>(current.data);
 				partition.next = more;
 				more = partition;
 			} else {
@@ -38,7 +39,7 @@ public class PartitionList {
 		if (less == null) {
 			return more;
 		} else {
-			Node lastOfLess = less;
+			Node<String> lastOfLess = less;
 			while (lastOfLess.next != null) {
 				lastOfLess = lastOfLess.next;
 			}
@@ -48,9 +49,9 @@ public class PartitionList {
 
 	}
 
-	private Node extractNode(Node destination, Node source) {
+	private Node<String> extractNode(Node<String> destination, Node<String> source) {
 		if (destination == null) {
-			destination = new Node(source.data);
+			destination = new Node<String>(source.data);
 		} else {
 			destination.add(source.data);
 		}
@@ -59,17 +60,10 @@ public class PartitionList {
 
 	@Test
 	public void testWithAsserts() {
-		Node head = new Node("a");
-		Node n1 = head.add("e");
-		Node n2 = head.add("c");
-		Node n3 = head.add("b");
-		Node n4 = head.add("d");
-		Node n5 = head.add("a");
-		Node n6 = head.add("c");
-		Node n7 = head.add("b");
-		Node n8 = head.add("f");
+		Node<String> head = new Node<String>("a");
+		head.add("e").add("c").add("b").add("d").add("a").add("c").add("b").add("f");
 
-		Node partitioned = partitionAroundX(head, "c");
+		Node<String> partitioned = partitionAroundX(head, "c");
 
 		Assert.assertEquals("[a, b, a, b, c, c, e, d, f]", partitioned.toString());
 	}

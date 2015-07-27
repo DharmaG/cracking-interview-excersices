@@ -3,20 +3,20 @@ package com.ryabokon.datastructures.lists;
 /**
  * My implementation of a LinkedList
  */
-public class Node {
+public class Node<T> {
 
-	protected Node next;
-	protected String data;
+	protected Node<T> next;
+	protected T data;
 
-	public Node(String data) {
+	public Node(T data) {
 		this.data = data;
 	}
 
-	public Node add(String data) {
+	public Node<T> add(T data) {
 
-		Node newNode = new Node(data);
+		Node<T> newNode = new Node<T>(data);
 
-		Node node = this;
+		Node<T> node = this;
 		while (node.next != null) {
 			node = node.next;
 		}
