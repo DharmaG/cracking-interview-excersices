@@ -21,39 +21,52 @@ import org.junit.Test;
  * first list numbers
  *
  */
-public class SumOfNumbers {
+public class SumOfNumbersReverse {
 
 	/**
-	 * Sum for numbers going in a common way 123 = 1->2->3
+	 * Sum for numbers stored in a reverse way: 123 = 3->2->1
 	 */
-	public Node<Integer> addNumbers(Node<Integer> numOne, Node<Integer> numTwo) {
+	public Node<Integer> addReverseNumbers(Node<Integer> numOne, Node<Integer> numTwo) {
 		Node<Integer> result = null;
 
-		int sizeOne = getListSize(numOne);
-		int sizeTwo = getListSize(numTwo);
+		int tmp = 0;
 
-		if (sizeOne != sizeTwo) {
-			Node numToPadd = (sizeOne > sizeTwo) ? numTwo : numOne;
-			for (int i = 0; i < Math.abs(sizeOne - sizeTwo); i++) {
-				Node<Integer> zero = new Node<>(0);
-				zero.next = numToPadd;
-				numToPadd = zero;
+		while (numOne != null || numTwo != null) {
+
+			int a, b;
+
+			// If the end of a list is reached, use 0 as next elements of a list
+			if (numOne == null) {
+				a = 0;
+			} else {
+				a = numOne.data;
+				numOne = numOne.next;
 			}
-		}
 
-		// TODO
+			if (numTwo == null) {
+				b = 0;
+			} else {
+				b = numTwo.data;
+				numTwo = numTwo.next;
+			}
+
+			int sum = a + b + tmp;
+			tmp = 0;
+
+			if (sum >= 10) {
+				tmp = 1;
+				sum -= 10;
+			}
+
+			if (result == null) {
+				result = new Node<Integer>(sum);
+			} else {
+				result.add(sum);
+			}
+
+		}
 
 		return result;
-	}
-
-	public int getListSize(Node node) {
-		int size = 0;
-		while (node != null) {
-			size++;
-			node = node.next;
-		}
-
-		return size;
 	}
 
 	@Test
@@ -64,7 +77,7 @@ public class SumOfNumbers {
 		Node<Integer> bar = new Node<Integer>(1);
 		bar.add(1).add(9).add(8).add(3).add(3).add(3);
 
-		Node<Integer> res = addNumbers(foo, bar);
+		Node<Integer> res = addReverseNumbers(foo, bar);
 
 		Assert.assertEquals("[2, 3, 2, 3, 4, 3, 3]", res.toString());
 
