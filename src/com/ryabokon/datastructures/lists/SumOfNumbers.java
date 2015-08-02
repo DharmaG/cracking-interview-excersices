@@ -12,13 +12,6 @@ import org.junit.Test;
  * FOLLOW UP Suppose the digits are stored in forward order. Repeat the above
  * problem.
  * -----------------------------------------------------------------------------
- * Can be solved in a natural way like sum of numbers is calculated by hand
- * 1)Sum digits while iterating through both lists
- * 
- * 2)If result is > 10, add (result-10) carry to the next sum
- * 
- * 3)If one list is out of numbers when other still has them, use 0s instead of
- * first list numbers
  *
  */
 public class SumOfNumbers {
@@ -27,23 +20,68 @@ public class SumOfNumbers {
 	 * Sum for numbers going in a common way 123 = 1->2->3
 	 */
 	public Node<Integer> addNumbers(Node<Integer> numOne, Node<Integer> numTwo) {
-		Node<Integer> result = null;
+		Node<Integer> result = new Node<>(-1);
 
 		int sizeOne = getListSize(numOne);
 		int sizeTwo = getListSize(numTwo);
 
 		if (sizeOne != sizeTwo) {
-			Node numToPadd = (sizeOne > sizeTwo) ? numTwo : numOne;
+			Node<Integer> listToBePadded = (sizeOne > sizeTwo) ? numTwo : numOne;
 			for (int i = 0; i < Math.abs(sizeOne - sizeTwo); i++) {
 				Node<Integer> zero = new Node<>(0);
-				zero.next = numToPadd;
-				numToPadd = zero;
+				zero.next = listToBePadded;
+				listToBePadded = zero;
+			}
+
+			if (sizeOne > sizeTwo) {
+				numTwo = listToBePadded;
+			} else {
+				numOne = listToBePadded;
 			}
 		}
 
-		// TODO
+		recursiveSum(numOne, numTwo, result, true);
 
 		return result;
+	}
+
+	public int recursiveSum(Node<Integer> numOne, Node<Integer> numTwo, Node<Integer> partialResult, boolean isItHead) {
+
+		if (numOne == null && numTwo == null) {
+			return 0;
+		}
+
+		int a = (numOne == null) ? 0 : numOne.data;
+		int b = (numTwo == null) ? 0 : numTwo.data;
+
+		numOne = (numOne == null) ? null : numOne.next;
+		numTwo = (numTwo == null) ? null : numTwo.next;
+
+		int carry = recursiveSum(numOne, numTwo, partialResult, false);
+
+		// Reached the end of a list, time to sum
+
+		int sum = a + b + carry;
+		if (sum >= 10) {
+			carry = 1;
+			sum -= 10;
+		} else {
+			carry = 0;
+		}
+
+		if (partialResult.data == -1) {
+			partialResult.data = sum;
+		} else {
+			partialResult.add(sum);
+
+		}
+
+		// Add the final carry if present
+		if (isItHead && carry != 0) {
+			partialResult.add(carry);
+		}
+
+		return carry;
 	}
 
 	public int getListSize(Node node) {
@@ -58,7 +96,7 @@ public class SumOfNumbers {
 
 	@Test
 	public void testReverseWithAsserts() {
-		Node<Integer> foo = new Node<Integer>(1);
+		Node<Integer> foo = new Node<Integer>(5);
 		foo.add(2).add(3).add(4);
 
 		Node<Integer> bar = new Node<Integer>(1);
@@ -66,7 +104,8 @@ public class SumOfNumbers {
 
 		Node<Integer> res = addNumbers(foo, bar);
 
-		Assert.assertEquals("[2, 3, 2, 3, 4, 3, 3]", res.toString());
+		// TODO reverse result or create result by adding numbers at the head side
+		Assert.assertEquals("[1, 2, 0, 3, 5, 6, 7]", res.toString());
 
 	}
 }
