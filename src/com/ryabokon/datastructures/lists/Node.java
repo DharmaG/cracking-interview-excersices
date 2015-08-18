@@ -5,8 +5,8 @@ package com.ryabokon.datastructures.lists;
  */
 public class Node<T> {
 
-	protected Node<T> next;
-	protected T data;
+	public Node<T> next;
+	public T data;
 
 	public Node(T data) {
 		this.data = data;
