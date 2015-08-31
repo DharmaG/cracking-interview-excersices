@@ -1,5 +1,8 @@
 package com.ryabokon.datastructures.trees;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class TreeNode {
 
 	public TreeNode(int data) {
@@ -28,6 +31,70 @@ public class TreeNode {
 				left.add(data);
 			}
 		}
+	}
+
+	public TreeNode binarySearch(int data) {
+		if (data == this.data) {
+			return (this);
+		}
+
+		if (data > this.data) {
+			if (this.right != null) {
+				return right.binarySearch(data);
+			}
+		} else {
+			if (this.left != null) {
+				return left.binarySearch(data);
+			}
+		}
+
+		return null;
+	}
+
+	public TreeNode depthSearch(int data) {
+		if (this.data == data) {
+			return (this);
+		}
+
+		if (this.left != null) {
+			TreeNode result = left.depthSearch(data);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		if (this.right != null) {
+			TreeNode result = right.depthSearch(data);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		return null;
+	}
+
+	public TreeNode breadthSearch(int data) {
+
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(this);
+
+		while (!queue.isEmpty()) {
+			TreeNode node = queue.poll();
+			if (node.data == data) {
+				return node;
+			}
+
+			if (node.left != null) {
+				queue.add(node.left);
+			}
+
+			if (node.right != null) {
+				queue.add(node.right);
+			}
+		}
+
+		return null;
+
 	}
 
 	@Override
