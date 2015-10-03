@@ -59,6 +59,64 @@ public class BinaryHeapTest {
 	}
 
 	@Test
+	public void testGetRoot() throws Exception {
+
+		BinaryHeap heap = new BinaryHeap();
+
+		heap.add(100);
+		heap.add(19);
+		heap.add(36);
+		heap.add(17);
+		heap.add(3);
+		heap.add(25);
+		heap.add(1);
+
+		heap.getRoot();
+
+		int[] expected = new int[32];
+		expected[0] = 36;
+		expected[1] = 19;
+		expected[2] = 25;
+		expected[3] = 17;
+		expected[4] = 3;
+		expected[5] = 1;
+
+		Assert.assertArrayEquals(expected, heap.array);
+
+	}
+
+	@Test
+	public void testAddAndRemove() throws Exception {
+
+		BinaryHeap heap = new BinaryHeap();
+
+		heap.add(100);
+		heap.add(19);
+		heap.add(36);
+		heap.add(17);
+		heap.add(3);
+		heap.add(25);
+		heap.add(1);
+
+		heap.getRoot();
+		heap.getRoot();
+		heap.add(30);
+		heap.add(2);
+
+		int[] expected = new int[32];
+		expected[0] = 30;
+		expected[1] = 19;
+		expected[2] = 25;
+		expected[3] = 17;
+		expected[4] = 3;
+		expected[5] = 1;
+		expected[6] = 2;
+
+		Assert.assertArrayEquals(expected, heap.array);
+
+	}
+
+	@Test
 	public void testCapacity() {
 		BinaryHeap heap = new BinaryHeap();
 		for (int i = 0; i < 100; i++) {

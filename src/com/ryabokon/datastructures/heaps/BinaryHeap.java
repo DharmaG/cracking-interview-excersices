@@ -17,8 +17,13 @@ public class BinaryHeap {
 	}
 
 	public int getRoot() {
-		// TODO implement
-		return 0;
+		int root = array[0];
+		lastIndex--;
+		array[0] = array[lastIndex];
+		array[lastIndex] = 0;
+		downHeap(0);
+
+		return root;
 
 	}
 
@@ -43,6 +48,45 @@ public class BinaryHeap {
 
 	}
 
+	protected void downHeap(int index) {
+
+		if (index >= lastIndex) {
+			return;
+		}
+
+		int root = array[index];
+
+		int leftChild = 0;
+		int rightChild = 0;
+
+		int leftChildIndex = getLeftChildIndex(index);
+		int rightChildIndex = getRightChildIndex(index);
+		if (leftChildIndex != -1) {
+			leftChild = array[leftChildIndex];
+		}
+		if (rightChildIndex != -1) {
+			rightChild = array[rightChildIndex];
+		}
+
+		boolean lessThanRight = root < rightChild;
+		boolean lessThanLeft = root < leftChild;
+		boolean rightIsBigger = rightChild >= leftChild;
+
+		// Covers both || and && cases
+		if (lessThanRight || lessThanLeft) {
+			// root is smaller than biggest of left / right
+			if (rightIsBigger) {
+				array[rightChildIndex] = root;
+				array[index] = rightChild;
+				downHeap(rightChildIndex);
+			} else {
+				array[leftChildIndex] = root;
+				array[index] = leftChild;
+				downHeap(leftChildIndex);
+			}
+		}
+	}
+
 	protected int getParentIndex(int childIndex) {
 		if (childIndex == 0) {
 			return -1;
@@ -51,6 +95,24 @@ public class BinaryHeap {
 		// floor( (c - 1) / 2 )
 		// No need to use Math.floor with ints.
 		return (childIndex - 1) / 2;
+	}
+
+	protected int getLeftChildIndex(int parent) {
+		int child = 2 * parent + 1;
+		if (child > lastIndex) {
+			child = -1;
+		}
+
+		return child;
+	}
+
+	protected int getRightChildIndex(int parent) {
+		int child = 2 * parent + 2;
+		if (child > lastIndex) {
+			child = -1;
+		}
+
+		return child;
 	}
 
 }
