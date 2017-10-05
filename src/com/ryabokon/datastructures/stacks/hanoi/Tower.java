@@ -1,10 +1,11 @@
 package com.ryabokon.datastructures.stacks.hanoi;
 
 import com.ryabokon.datastructures.stacks.Stack;
+import com.ryabokon.datastructures.stacks.StackOnArray;
 import com.ryabokon.datastructures.stacks.StackOnList;
 
 public class Tower {
-    Stack<String> stack = new StackOnList<>();
+    Stack<String> stack = new StackOnArray<>();
     int itemsCount = 0;
 
 

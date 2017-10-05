@@ -4,30 +4,43 @@ import com.ryabokon.datastructures.lists.Node;
 
 public class StackOnList<T> implements Stack<T> {
 
-	Node<T> head;
+    Node<T> head;
 
-	@Override
-	public T pop() {
-		if (head == null) {
-			return null;
-		}
+    @Override
+    public T pop() {
+        if (head == null) {
+            return null;
+        }
 
-		T data = head.data;
-		head = head.next;
+        T data = head.data;
+        head = head.next;
 
-		return data;
-	}
+        return data;
+    }
 
-	@Override
-	public void push(T obj) {
-		if (head == null) {
-			head = new Node<>(obj);
-		} else {
-			Node<T> n = new Node<>(obj);
-			n.next = head;
-			head = n;
-		}
+    @Override
+    public T peek() {
+        if (head == null) {
+            return null;
+        }
+        return head.data;
+    }
 
-	}
+    @Override
+    public void push(T obj) {
+        if (head == null) {
+            head = new Node<>(obj);
+        } else {
+            Node<T> n = new Node<>(obj);
+            n.next = head;
+            head = n;
+        }
+
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return head == null;
+    }
 
 }

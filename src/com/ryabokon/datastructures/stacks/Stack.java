@@ -2,8 +2,12 @@ package com.ryabokon.datastructures.stacks;
 
 public interface Stack<T> {
 
-	public abstract T pop();
+    public T pop();
 
-	public abstract void push(T obj);
+    public void push(T obj);
+
+    public T peek();
+
+    public boolean isEmpty();
 
 }

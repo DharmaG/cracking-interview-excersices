@@ -4,28 +4,45 @@ import java.util.Arrays;
 
 public class StackOnArray<T> implements Stack<T> {
 
-	T[] stack = (T[]) new Object[32];
-	int currentPosition = 0;
+    T[] stack = (T[]) new Object[32];
+    int currentPosition = -1;
 
-	@Override
-	public T pop() {
-		if (currentPosition == 0) {
-			return null;
-		}
-		return stack[--currentPosition];
-	}
+    @Override
+    public T pop() {
+        if (currentPosition == -1) {
+            return null;
+        }
 
-	@Override
-	public void push(T obj) {
-		checkCapacity();
-		stack[currentPosition++] = obj;
-	}
+        T result = stack[currentPosition];
+        stack[currentPosition] = null;
+        currentPosition--;
+        return result;
+    }
 
-	private void checkCapacity() {
-		if (currentPosition == stack.length) {
-			stack = Arrays.copyOf(stack, stack.length * 2);
-		}
+    @Override
+    public T peek() {
+        if (currentPosition == -1) {
+            return null;
+        }
+        return stack[currentPosition];
+    }
 
-	}
+    @Override
+    public void push(T obj) {
+        checkCapacity();
+        stack[++currentPosition] = obj;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return currentPosition == -1;
+    }
+
+    private void checkCapacity() {
+        if (currentPosition == stack.length - 1) {
+            stack = Arrays.copyOf(stack, stack.length * 2);
+        }
+
+    }
 
 }
